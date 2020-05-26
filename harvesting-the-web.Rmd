@@ -1,0 +1,67 @@
+---
+title: "harvesting-the-web"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library (rvest)
+lego_url <- "http://www.imdb.com/title/tt1490017/"
+html <- read_html(lego_url)
+
+characters <- html_nodes(html, ".cast_list .character")
+length(characters)
+```
+
+```{r}
+characters[1:2]
+```
+```{r}
+html_text(characters, trim=TRUE)
+```
+
+```{r}
+html_nodes(html,".cast_list") %>% 
+  html_name()
+```
+
+```{r}
+html_node(html,".cast_list")
+```
+```{r}
+html_node(html,".cast_list") %>% 
+  html_table() %>% 
+  head()
+```
+
+```{r}
+html_node(html, ".cast_list .character") %>% 
+  html_text()
+```
+
+```{r}
+html_nodes(html, ".cast_list .character") %>% 
+  html_children() %>% 
+  html_attr("href")
+```
+
+```{r}
+html_node(html, ".cast_list .character") %>% 
+  html_children() %>% 
+  html_text()
+```
+
+```{r}
+html_node(html, ".cast_list .character") %>% 
+  html_nodes(xpath="./text()[normalize-space()]")
+```
+
+```{r}
+html_node(html, ".cast_list .character") %>% 
+  html_nodes(xpath="./text()[normalize-space()]") %>% 
+  html_text(trim=TRUE)
+```
+
